@@ -479,20 +479,20 @@ public class ProcessingOptions1Fragment extends PreferenceFragment {
         opts.setModeGpsAR(Integer.valueOf(prefs.getString(KEY_GPS_AMBIGUITY_RESOLUTION, "0")));
         opts.setModeBDSAR(Integer.valueOf(prefs.getString(KEY_BDS_AMBIGUITY_RESOLUTION, "0")));
 
-        opts.setArFilter(Integer.valueOf(prefs.getString(KEY_AR_FILTER, "0")));
+        opts.setArFilter(Integer.valueOf(prefs.getString(KEY_AR_FILTER, "1")));
 
         opts.setMinFixCountToHoldAmbiguity(Integer.valueOf(prefs.getString(KEY_AR_MIN_FIX, "0")));
-        opts.setMinFixToFixAmbiguity(Integer.valueOf(prefs.getString(KEY_MIN_FIX_SATS, "0")));
-        opts.setMinHoldToFixAmbiguity(Integer.valueOf(prefs.getString(KEY_MIN_HOLD_SATS, "0")));
-        opts.setMinDropToFixAmbiguity(Integer.valueOf(prefs.getString(KEY_MIN_DROP_SATS, "0")));
+        opts.setMinFixToFixAmbiguity(Integer.valueOf(prefs.getString(KEY_MIN_FIX_SATS, "4")));
+        opts.setMinHoldToFixAmbiguity(Integer.valueOf(prefs.getString(KEY_MIN_HOLD_SATS, "5")));
+        opts.setMinDropToFixAmbiguity(Integer.valueOf(prefs.getString(KEY_MIN_DROP_SATS, "10")));
         opts.setRcvStds(Integer.valueOf(prefs.getString(KEY_RCV_STDS, "0")));
 
         opts.setArMaxIter(Integer.valueOf(prefs.getString(KEY_AR_MAX_ITER, "0")));
         opts.setNIter(Integer.valueOf(prefs.getString(KEY_N_ITER, "0")));
         opts.setMaxAveEp(Integer.valueOf(prefs.getString(KEY_MAX_AVE_AMB, "0")));
 
-        opts.setVarHoldAmb(Double.parseDouble(prefs.getString(KEY_VAR_HOLD_AMB, "0")));
-        opts.setGainHoldAmb(Double.parseDouble(prefs.getString(KEY_GAIN_HOLD_AMB, "0")));
+        opts.setVarHoldAmb(Double.parseDouble(prefs.getString(KEY_VAR_HOLD_AMB, "0.1")));
+        opts.setGainHoldAmb(Double.parseDouble(prefs.getString(KEY_GAIN_HOLD_AMB, "0.01")));
 
         opts.setInitRst(Integer.valueOf(prefs.getString(KEY_INIT_RST, "0")));
         opts.setOutSingle(Integer.valueOf(prefs.getString(KEY_OUT_SINGLE, "0")));
@@ -503,13 +503,13 @@ public class ProcessingOptions1Fragment extends PreferenceFragment {
         opts.setArOutCnt(Integer.valueOf(prefs.getString(KEY_AR_OUT_CNT, "0")));
 
         opts.setSlipThres(Double.parseDouble(prefs.getString(KEY_SLIP_THRES, "0")));
-        opts.setMaxAge(Double.parseDouble(prefs.getString(KEY_MAX_AGE, "0")));
-        opts.setRejGDop(Double.parseDouble(prefs.getString(KEY_REJ_GDOP, "0")));
-        opts.setRejIonno(Double.parseDouble(prefs.getString(KEY_REJ_IONNO, "0")));
+        opts.setMaxAge(Double.parseDouble(prefs.getString(KEY_MAX_AGE, "30")));
+        opts.setRejGDop(Double.parseDouble(prefs.getString(KEY_REJ_GDOP, "30.0")));
+        opts.setRejIonno(Double.parseDouble(prefs.getString(KEY_REJ_IONNO, "1000.0")));
 
 
         opts.setValidThresoldAR(Double.parseDouble(prefs.getString(KEY_MIN_FIX_RATIO, "3.0")));
-        opts.setMaxPositionVariance(Double.parseDouble(prefs.getString(KEY_MAX_POS_VAR, "0.004")));
+        opts.setMaxPositionVariance(Double.parseDouble(prefs.getString(KEY_MAX_POS_VAR, "0.15")));
 
         opts.setMinElevationToFixAmbiguityRad(Double.parseDouble(prefs.getString(KEY_MIN_FIX_ELEVATION, "0"))*(Math.PI/180));
         opts.setMinElevationToHoldAmbiguityRad(Double.parseDouble(prefs.getString(KEY_MIN_HOLD_ELEVATION, "0"))*(Math.PI/180));
