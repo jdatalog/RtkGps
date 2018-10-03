@@ -337,6 +337,8 @@ static void ProcessingOptions_load_defaults(JNIEnv* env, jobject thiz)
 
 #define SET_FIELD(_name, _type) { (*env)->Set ## _type ## Field(env, thiz, gpsplus_rtklib_prcopt_fields._name, src->_name); }
 #define SET_FIELD2(_name, _type, _value) { (*env)->Set ## _type ## Field(env, thiz, gpsplus_rtklib_prcopt_fields._name, _value); }
+
+
    SET_FIELD(mode, Int)
    SET_FIELD(soltype, Int)
    SET_FIELD(nf, Int)
