@@ -220,7 +220,6 @@ public class StreamNtripClientFragment extends PreferenceFragment {
         }
     };
 
-
     public static Value readSettings(SharedPreferences prefs) {
         return new Value()
             .setUser(prefs.getString(KEY_USER, ""))

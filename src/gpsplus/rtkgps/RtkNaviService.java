@@ -172,7 +172,6 @@ public class RtkNaviService extends IntentService implements LocationListener {
 
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mCpuLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
-
     }
 
     @Override
@@ -453,7 +452,6 @@ public class RtkNaviService extends IntentService implements LocationListener {
         loadSatAnt(MainActivity.getApplicationDirectory()+File.separator+"files"+File.separator+"data"+File.separator+"igs05.atx");
         mBoolIsRunning = true;
     }
-
 
     private void processStop() {
         mBoolIsRunning = false;
