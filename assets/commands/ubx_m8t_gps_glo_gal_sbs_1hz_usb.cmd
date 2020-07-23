@@ -44,12 +44,36 @@
 !UBX CFG-MSG 240 5 0 0 0 0 0 0
 # NMEA ZDA
 #!UBX CFG-MSG 240 8 0 0 0 0 0 0
-#!UBX CFG-MSG 1 3 0 0 0 0 0 0
-#!UBX CFG-MSG 1 3 0 0 0 0 0 0
+
+# NAVIGATION MSG
+#  NAV-POSECEF Position	Solution	in	ECEF
+#!UBX CFG-MSG 1 1 0 0 0 0 0 0
+#  NAV-POSLLH Geodetic Position Solution	
+!UBX CFG-MSG 1 2 0 0 0 1 0 0
+#  NAV-STATUS Receiver Navigation Status
+!UBX CFG-MSG 1 3 0 0 0 1 0 0
+#  NAV-DOP Dilution of precision	
+!UBX CFG-MSG 1 4 0 0 0 1 0 0
+#  NAV-SOL Periodic/Polled Navigation Solution Information
 #!UBX CFG-MSG 1 6 0 0 0 0 0 0
+#  NAV-PVT Navigation Position Velocity Time Solution
+!UBX CFG-MSG 1 7 0 0 0 1 0 0
+#  NAV-VELNED Velocity Solution in NED
 #!UBX CFG-MSG 1 18 0 0 0 0 0 0
+#  NAV-HPPOSLLH High Precision Geodetic	Position Solution
+!UBX CFG-MSG 1 20 0 0 0 1 0 0
+#  NAV-CLOCK Clock Solution
 #!UBX CFG-MSG 1 34 0 0 0 0 0 0
+#  NAV-SVINFO Space Vehicle Information
 #!UBX CFG-MSG 1 48 0 0 0 0 0 0
+#  NAV-DGPS DGPS Data Used for NAV
+!UBX CFG-MSG 1 49 0 0 0 1 0 0
+#  NAV-SBAS SBAS Status	Data
+!UBX CFG-MSG 1 50 0 0 0 1 0 0
+
+#  NAV-SBAS SBAS Status	Data
+!UBX CFG-MSG 6 22 1 7 0 0
+
 #!UBX CFG-MSG 3 15 0 0 0 0 0 0
 #!UBX CFG-MSG 3 16 0 0 0 0 0 0
 #!UBX CFG-MSG 12 16 0 0 0 0 0 0

@@ -1,0 +1,41 @@
+{
+  "buildFiles": [
+    "/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Android.mk",
+    "/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Application.mk"
+  ],
+  "cleanCommands": [
+    "/home/tophe/Android/Sdk/ndk-bundle/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Android.mk NDK_APPLICATION_MK\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/lib clean"
+  ],
+  "libraries": {
+    "gdalalljni-release-x86_64": {
+      "artifactName": "gdalalljni",
+      "buildCommand": "/home/tophe/Android/Sdk/ndk-bundle/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Android.mk NDK_APPLICATION_MK\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/lib /datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj/local/x86_64/libgdalalljni.so",
+      "abi": "x86_64",
+      "output": "/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj/local/x86_64/libgdalalljni.so"
+    },
+    "rtkgps-release-x86_64": {
+      "artifactName": "rtkgps",
+      "buildCommand": "/home/tophe/Android/Sdk/ndk-bundle/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Android.mk NDK_APPLICATION_MK\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/lib /datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj/local/x86_64/librtkgps.so",
+      "abi": "x86_64",
+      "output": "/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj/local/x86_64/librtkgps.so"
+    },
+    "ntripcaster-release-x86_64": {
+      "artifactName": "ntripcaster",
+      "buildCommand": "/home/tophe/Android/Sdk/ndk-bundle/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Android.mk NDK_APPLICATION_MK\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/lib /datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj/local/x86_64/libntripcaster.so",
+      "abi": "x86_64",
+      "output": "/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj/local/x86_64/libntripcaster.so"
+    },
+    "proj-release-x86_64": {
+      "artifactName": "proj",
+      "buildCommand": "/home/tophe/Android/Sdk/ndk-bundle/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Android.mk NDK_APPLICATION_MK\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/lib /datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj/local/x86_64/libproj.so",
+      "abi": "x86_64",
+      "output": "/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj/local/x86_64/libproj.so"
+    },
+    "rtklib-release-x86_64": {
+      "artifactName": "rtklib",
+      "buildCommand": "/home/tophe/Android/Sdk/ndk-bundle/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Android.mk NDK_APPLICATION_MK\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/jni/Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003d/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/lib /datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj/local/x86_64/librtklib.a",
+      "abi": "x86_64",
+      "output": "/datas/Perso_CG/RtkLib/RtkGps_Tophe_b33c/build/intermediates/ndkBuild/release/obj/local/x86_64/librtklib.a"
+    }
+  }
+}

@@ -19,6 +19,20 @@
     </style>
   </head>
   <body>
+$ 1.0 beta 03
+   % Build 29
+  _ 2020-07-23
+    *   Merge update from Jancelin and Kolesar-andras code
+$ 1.0 beta 02
+   % Build 28
+  _ 2020-07-10
+    *   Move to rtklibxplorer RTKLIB Demo 5 B33c code
+    *   Add Ublox F9P cmd file
+$ 1.0 beta 01
+   % Build 27
+  _ 2019-10-10
+    *   Move to rtklibxplorer RTKLIB Demo 5 B33a code
+    *   Fix geoportail view crash
 $ 1.0 alpha 26
    % Build 26
   _ 2018-08-31

@@ -56,6 +56,7 @@ static struct {
    jfieldID sbassatsel;
    jfieldID rovpos;
    jfieldID refpos;
+   jfieldID weightmode;    /* 2019-10-03 new option in rtklib demo5_b31a */
    jfieldID eratioL1;
    jfieldID eratioL2;
    jfieldID eratioL5;
@@ -63,6 +64,7 @@ static struct {
    jfieldID errPhaseB;
    jfieldID errPhaseC;
    jfieldID errDopplerFreq;
+   jfieldID snrmax;        /* 2019-10-03 new option in rtklib demo5_b31a */
    jfieldID stdBias;
    jfieldID stdIono;
    jfieldID stdTrop;
@@ -219,6 +221,7 @@ void processing_options2prcopt_t(JNIEnv* env, jobject thiz, prcopt_t *dst)
    GET_FIELD(sbassatsel, Int)
    GET_FIELD(rovpos, Int)
    GET_FIELD(refpos, Int)
+   GET_FIELD(weightmode, Int)
    dst->eratio[0] = GET_FIELD2(eratioL1, Double)
    dst->eratio[1] = GET_FIELD2(eratioL2, Double)
    dst->eratio[2] = GET_FIELD2(eratioL5, Double)
@@ -227,6 +230,7 @@ void processing_options2prcopt_t(JNIEnv* env, jobject thiz, prcopt_t *dst)
    dst->err[2] = GET_FIELD2(errPhaseB, Double)
    dst->err[3] = GET_FIELD2(errPhaseC, Double)
    dst->err[4] = GET_FIELD2(errDopplerFreq, Double)
+   dst->err[5] = GET_FIELD2(snrmax, Double)
    dst->std[0] = GET_FIELD2(stdBias, Double)
    dst->std[1] = GET_FIELD2(stdIono, Double)
    dst->std[2] = GET_FIELD2(stdTrop, Double)
@@ -384,6 +388,7 @@ static void ProcessingOptions_load_defaults(JNIEnv* env, jobject thiz)
    SET_FIELD(sbassatsel, Int)
    SET_FIELD(rovpos, Int)
    SET_FIELD(refpos, Int)
+   SET_FIELD(weightmode, Int)
    SET_FIELD2(eratioL1, Double, src->eratio[0])
    SET_FIELD2(eratioL2, Double, src->eratio[1])
    SET_FIELD2(eratioL5, Double, src->eratio[2])
@@ -391,6 +396,7 @@ static void ProcessingOptions_load_defaults(JNIEnv* env, jobject thiz)
    SET_FIELD2(errPhaseB, Double, src->err[2])
    SET_FIELD2(errPhaseC, Double, src->err[3])
    SET_FIELD2(errDopplerFreq, Double, src->err[4])
+   SET_FIELD2(snrmax, Double, src->err[5])
    SET_FIELD2(stdBias, Double, src->std[0])
    SET_FIELD2(stdIono, Double, src->std[1])
    SET_FIELD2(stdTrop, Double, src->std[2])
@@ -552,6 +558,7 @@ static int init_prcopt_fields_methods(JNIEnv* env, jclass clazz)
    INIT_FIELD(sbassatsel, "I")
    INIT_FIELD(rovpos, "I")
    INIT_FIELD(refpos, "I")
+   INIT_FIELD(weightmode, "I")
    INIT_FIELD(eratioL1, "D")
    INIT_FIELD(eratioL2, "D")
    INIT_FIELD(eratioL5, "D")
@@ -559,6 +566,7 @@ static int init_prcopt_fields_methods(JNIEnv* env, jclass clazz)
    INIT_FIELD(errPhaseB, "D")
    INIT_FIELD(errPhaseC, "D")
    INIT_FIELD(errDopplerFreq, "D")
+   INIT_FIELD(snrmax, "D")
    INIT_FIELD(stdBias, "D")
    INIT_FIELD(stdIono, "D")
    INIT_FIELD(stdTrop, "D")

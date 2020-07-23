@@ -676,7 +676,7 @@
     <string name="log_stream_settings_rover_tab_title">Log Rover</string>
     <string name="log_stream_settings_base_tab_title">Log Base</string>
     <string name="log_stream_settings_correction_tab_title">Log Correction</string>
-    
+
     <!-- NTRIP client stream preferences -->
     <string name="ntrip_client_dialog_title">NTRIP client settings</string>
     <string name="ntrip_client_host_title">Host</string>
@@ -684,6 +684,13 @@
     <string name="ntrip_client_mountpoint_title">NTRIP Mountpoint</string>
     <string name="ntrip_client_user_title">NTRIP user</string>
     <string name="ntrip_client_password_title">NTRIP password</string>
+
+    <string name="ntrip_client_category_individual">Individual fields</string>
+    <string name="ntrip_client_category_path">Single path</string>
+
+    <string name="ntrip_client_path_title">NTRIP path...</string>
+    <string name="ntrip_client_path_hint">Change all settings as a single string.</string>
+
     <string name="ntrip_server_dialog_title">NTRIP server settings</string>
     <string name="file_filename_title">Filename</string>
     <string name="file_filename_summary">can included %Y (year) %m (month) %d (day) %h (hour) %M (minutes) %S (seconds) for dynamic naming</string>

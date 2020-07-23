@@ -19,8 +19,16 @@
     </style>
   </head>
   <body>
+$ 1.0 beta 02
+  _ 2019-10-10
+    *   Move to rtklibxplorer RTKLIB Demo 5 B33c code
+    *   Add Ublox F9P cmd file
+$ 1.0 beta 01
+  _ 2019-10-10
+    *   Move to rtklibxplorer RTKLIB Demo 5 B33a code
+    *   Fix geoportail view crash
 $ 1.0 alpha 26
-   % Build 26
+  % Build 26
   _ 2018-08-31
     * Merge Embedded NTRIP Caster - use only if you know what you are doing
     * Produce .urw .crw for Trimble MobileMapper field Office

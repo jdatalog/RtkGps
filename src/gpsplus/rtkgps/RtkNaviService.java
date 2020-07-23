@@ -23,6 +23,7 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.Toast;
 import butterknife.BindString;
@@ -51,6 +52,7 @@ import gpsplus.rtkgps.utils.GpsTime;
 import gpsplus.rtkgps.utils.PreciseEphemerisDownloader;
 import gpsplus.rtkgps.utils.PreciseEphemerisProvider;
 import gpsplus.rtkgps.utils.Shapefile;
+import gpsplus.rtkgps.view.SolutionView;
 import gpsplus.rtklib.RtkCommon;
 import gpsplus.rtklib.RtkCommon.Position3d;
 import gpsplus.rtklib.RtkControlResult;
@@ -62,6 +64,7 @@ import gpsplus.rtklib.RtkServerStreamStatus;
 import gpsplus.rtklib.Solution;
 import gpsplus.rtklib.constants.EphemerisOption;
 import gpsplus.rtklib.constants.GeoidModel;
+import gpsplus.rtklib.constants.SolutionStatus;
 import gpsplus.rtklib.constants.StreamType;
 
 import java.io.BufferedWriter;
@@ -131,7 +134,12 @@ public class RtkNaviService extends IntentService implements LocationListener {
     private static final String MM_MAP_HEADER = "COMPD_CS[\"WGS 84\",GEOGCS[\"\",DATUM[\"WGS 84\",SPHEROID[\"WGS 84\",6378137,298.257223563],TOWGS84[0,0,0,0,0,0,0]],PRIMEM[\"Greenwich\",0],UNIT[\"Degrees\",0.0174532925199433],AXIS[\"Long\",East],AXIS[\"Lat\",North]],VERT_CS[\"\",VERT_DATUM[\"Ellipsoid\",2002],UNIT[\"Meters\",1],AXIS[\"Height\",Up]]]\r\n";
     private static final String GPS_PROVIDER = LocationManager.GPS_PROVIDER;
     private boolean mHavePoint = false;
-    private int NOTIFICATION = R.string.local_service_started;
+    private static final int NOTIFICATION = R.string.local_service_started;
+    private static NotificationCompat.Builder notificationBuilder;
+    private static NotificationManagerCompat notificationManager;
+    private static SolutionStatus previousSolutionStatus;
+    private static Context context;
+
     private RtkCommon rtkCommon;
 
     // Binder given to clients
@@ -160,6 +168,7 @@ public class RtkNaviService extends IntentService implements LocationListener {
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this.getBaseContext();
 
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mCpuLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
@@ -389,8 +398,11 @@ public class RtkNaviService extends IntentService implements LocationListener {
 
         mCpuLock.acquire();
 
-        Notification notification = createForegroundNotification();
-        startForeground(NOTIFICATION, notification);
+        notificationManager = NotificationManagerCompat.from(this);
+        notificationBuilder = createForegroundNotificationBuilder();
+        previousSolutionStatus = SolutionStatus.NONE;
+        setNotificationSolutionStatus(previousSolutionStatus);
+        startForeground(NOTIFICATION, notificationBuilder.build());
 
         SharedPreferences prefs = this.getBaseContext().getSharedPreferences(SolutionOutputSettingsFragment.SHARED_PREFS_NAME, 0);
         mBoolMockLocationsPref = prefs.getBoolean(SolutionOutputSettingsFragment.KEY_OUTPUT_MOCK_LOCATION, false);
@@ -399,7 +411,7 @@ public class RtkNaviService extends IntentService implements LocationListener {
         prefs = this.getBaseContext().getSharedPreferences(ProcessingOptions1Fragment.SHARED_PREFS_NAME, 0);
         mLProcessingCycle = Long.valueOf(prefs.getString(ProcessingOptions1Fragment.KEY_PROCESSING_CYCLE, "5"));
         if (mBoolMockLocationsPref) {
-            if (Settings.Secure.getString(getContentResolver(),
+            if (false && Settings.Secure.getString(getContentResolver(),
                     Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")) {
                 Log.e(RTK_GPS_MOCK_LOC_SERVICE, "Mock Location is not allowed");
             } else {
@@ -408,10 +420,15 @@ public class RtkNaviService extends IntentService implements LocationListener {
                 try {
                     locationManager.addTestProvider(GPS_PROVIDER, false, false,
                             false, false, true, false, true, 0, Criteria.ACCURACY_FINE);
-                } catch (IllegalArgumentException e) {
-                    Log.e(RTK_GPS_MOCK_LOC_SERVICE, "Mock Location gps provider already exist");
+                } catch (Exception e) {
+                    Log.e(RTK_GPS_MOCK_LOC_SERVICE, "Mock Location is not allowed");
                 }
-                locationManager.setTestProviderEnabled(GPS_PROVIDER, true);
+
+                try {
+                    locationManager.setTestProviderEnabled(GPS_PROVIDER, true);
+                } catch (Exception e) {
+                    Log.e(RTK_GPS_MOCK_LOC_SERVICE, "Mock Location cannot be enabled");
+                }
 
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     PermissionListener dialogPermissionListener =
@@ -628,7 +645,7 @@ public class RtkNaviService extends IntentService implements LocationListener {
     }
 
     @SuppressWarnings("deprecation")
-    private Notification createForegroundNotification() {
+    private NotificationCompat.Builder createForegroundNotificationBuilder() {
         CharSequence text = getText(R.string.local_service_started);
 
         // The PendingIntent to launch our activity if the user selects this
@@ -645,7 +662,7 @@ public class RtkNaviService extends IntentService implements LocationListener {
         builder.setNumber(100);
         builder.setAutoCancel(false);
 
-        return builder.build();
+        return builder;
     }
 
     private class BluetoothCallbacks implements BluetoothToRtklib.Callbacks {
@@ -831,6 +848,29 @@ public class RtkNaviService extends IntentService implements LocationListener {
         }
     }
 
+    private static void setNotificationSolutionStatus(SolutionStatus solutionStatus) {
+        int resId = solutionStatus.getNameResId();
+        String solutionStatusText = context.getString(resId);
+        notificationBuilder.setContentText(solutionStatusText);
+        notificationBuilder.setSmallIcon(solutionStatus.getIconResId());
+    }
+
+    private static void updateNotification() {
+        notificationManager.notify(NOTIFICATION, notificationBuilder.build());
+    }
+
+    public static void setNotificationSolutionStatusWithUpdate(SolutionStatus solutionStatus) {
+        if (
+            previousSolutionStatus != solutionStatus &&
+            notificationBuilder != null &&
+            notificationManager != null
+        ) {
+            setNotificationSolutionStatus(solutionStatus);
+            updateNotification();
+            previousSolutionStatus = solutionStatus;
+        }
+    }
+
     /* (non-Javadoc)
      * @see android.app.IntentService#onHandleIntent(android.content.Intent)
      */
@@ -842,10 +882,12 @@ public class RtkNaviService extends IntentService implements LocationListener {
 
             {
                 try {
+                    RtkControlResult result = getRtkStatus(null);
+                    Solution solution = result.getSolution();
+                    SolutionStatus solutionStatus = solution.getSolutionStatus();
+                    setNotificationSolutionStatusWithUpdate(solutionStatus);
                     if (mBoolMockLocationsPref || mBoolGenerateGPXTrace)
                     {
-                        RtkControlResult result = getRtkStatus(null);
-                        Solution solution = result.getSolution();
                         Position3d positionECEF = solution.getPosition();
 
                         if (RtkCommon.norm(positionECEF.getValues()) > 0.0)
@@ -854,16 +896,33 @@ public class RtkNaviService extends IntentService implements LocationListener {
 
                             if (mBoolMockLocationsPref)
                             {
-                                Location currentLocation = createLocation(Math.toDegrees(positionLatLon.getLat()), Math.toDegrees(positionLatLon.getLon()),positionLatLon.getHeight(), 1f);
                                 if (mBoolLocationServiceIsConnected || true) // TO be corrected for Google maps API
                                     {
                                      // provide the new location
                                      //   Log.i(RTK_GPS_MOCK_LOCATION_SERVICE,"Mock location is "+currentLocation.getLatitude()+" "+currentLocation.getLongitude());
+
+                                        // compute accuracy (HRMS)
+                                        RtkCommon.Matrix3x3 cov = solution.getQrMatrix();
+                                        Position3d roverPos = RtkCommon.ecef2pos(positionECEF);
+                                        double lat = roverPos.getLat();
+                                        double lon = roverPos.getLon();
+                                        double[] Qe = RtkCommon.covenu(lat, lon, cov).getValues();
+                                        double HRMS = SolutionView.computeHRMS(Qe);
+
+                                        Location currentLocation = createLocation(
+                                            Math.toDegrees(positionLatLon.getLat()),
+                                            Math.toDegrees(positionLatLon.getLon()),
+                                            positionLatLon.getHeight(),
+                                            (float) HRMS
+                                        );
+
+                                        Log.i(RTK_GPS_MOCK_LOC_SERVICE,"Mock location is "+currentLocation.getLatitude()+" "+currentLocation.getLongitude()+ " accuracy " + HRMS + " m");
+
                                         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                                         try {
                                             locationManager.setTestProviderLocation(GPS_PROVIDER, currentLocation);
                                         }
-                                        catch (IllegalArgumentException e)
+                                        catch (Exception e)
                                         {
                                             Log.i(RTK_GPS_MOCK_LOC_SERVICE,"Your device does not support MOCK_LOCATION with provider:" +GPS_PROVIDER);
                                         }

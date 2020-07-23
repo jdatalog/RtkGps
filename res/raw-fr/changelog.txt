@@ -19,6 +19,14 @@
     </style>
   </head>
   <body>
+$ 1.0 beta 02
+  _ 2020-07-10
+    *   Maj de la partie rtklib avec rtklibxplorer RTKLIB Demo 5 b33c code
+    *   Ajout du fichier de commande pour Ublox F9P
+$ 1.0 beta 01
+  _ 2019-10-10
+    *   Maj de la partie rtklib avec rtklibxplorer RTKLIB Demo 5 b33a code
+    *   Fix du bug geoportail qui plantait regulièrement
 $ 1.0 alpha 26
    % Build 26
   _ 2018-08-31

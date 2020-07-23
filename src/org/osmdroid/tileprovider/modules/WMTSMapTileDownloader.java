@@ -30,6 +30,7 @@ import cz.msebera.android.httpclient.params.HttpParams;
 import cz.msebera.android.httpclient.params.HttpProtocolParams;
 import cz.msebera.android.httpclient.protocol.HTTP;
 import cz.msebera.android.httpclient.util.EntityUtils;
+
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
@@ -65,7 +66,6 @@ import javax.net.ssl.X509TrustManager;
  * mainly in WMTSTileLoader.
  *
  * @author Steve Potell -- spotell@t-sciences.com
- *
  */
 public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
 
@@ -74,6 +74,7 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
     // ===========================================================
     private static final boolean DBG = BuildConfig.DEBUG & true;
     static final String TAG = WMTSMapTileDownloader.class.getSimpleName();
+    private static int MAXIMUM_ZOOMLEVEL = 22;
 
     // ===========================================================
     // Fields
@@ -98,8 +99,8 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
     }
 
     public WMTSMapTileDownloader(final ITileSource pTileSource,
-            final IFilesystemCache pFilesystemCache,
-            final INetworkAvailablityCheck pNetworkAvailablityCheck) {
+                                 final IFilesystemCache pFilesystemCache,
+                                 final INetworkAvailablityCheck pNetworkAvailablityCheck) {
         super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
 
         mFilesystemCache = pFilesystemCache;
@@ -182,7 +183,7 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
                 if (mNetworkAvailablityCheck != null
                         && !mNetworkAvailablityCheck.getNetworkAvailable()) {
                     if (DBG) {
-                        Log.d(TAG,"WMTSMapTileDownloader -- Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
+                        Log.d(TAG, "WMTSMapTileDownloader -- Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
                     }
                     return null;
                 }
@@ -190,7 +191,7 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
                 final String tileURLString = mTileSource.getTileURLString(tile);
 
                 if (DBG) {
-                    Log.d(TAG,"WMTSMapTileDownloader -- Downloading Maptile from url: " + tileURLString);
+                    Log.d(TAG, "WMTSMapTileDownloader -- Downloading Maptile from url: " + tileURLString);
                 }
 
                 if (TextUtils.isEmpty(tileURLString)) {
@@ -201,13 +202,13 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
                 // create the credentials with username and password
                 CredentialsProvider credProvider = new BasicCredentialsProvider();
                 credProvider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-                    new UsernamePasswordCredentials("", ""));
+                        new UsernamePasswordCredentials("", ""));
 
                 // get the client
                 HttpClient httpClient = getNewHttpClient();
                 ((AbstractHttpClient) httpClient).setCredentialsProvider(credProvider);
 
-                Log.d(TAG,"WMTSMapTileDownloader -- tileURLString ------------------------- " + tileURLString);
+                Log.d(TAG, "WMTSMapTileDownloader -- tileURLString ------------------------- " + tileURLString);
 
                 final HttpUriRequest head = new HttpGet(tileURLString);
                 //Geoportail has a mandatory user-agent
@@ -217,18 +218,19 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
                 // Check to see if we got success
                 final cz.msebera.android.httpclient.StatusLine line = response.getStatusLine();
                 if (line.getStatusCode() != 200) {
-                    Log.w(TAG,"WMTSMapTileDownloader -- Problem downloading MapTile: " + tile + " HTTP response: " + line);
-                    if (DBG)
-                    {
+                    Log.w(TAG, "WMTSMapTileDownloader -- Problem downloading MapTile: " + tile + " HTTP response: " + line);
+                    if (DBG) {
                         String responseAsString = EntityUtils.toString(response.getEntity());
-                        Log.d(TAG,responseAsString);
+                        Log.d(TAG, responseAsString);
                     }
+                    ((DefaultHttpClient) httpClient).close();
                     return null;
                 }
 
                 final HttpEntity entity = response.getEntity();
                 if (entity == null) {
-                    Log.w(TAG,"WMTSMapTileDownloader -- No content downloading MapTile: " + tile);
+                    Log.w(TAG, "WMTSMapTileDownloader -- No content downloading MapTile: " + tile);
+                    ((DefaultHttpClient) httpClient).close();
                     return null;
                 }
                 in = entity.getContent();
@@ -247,21 +249,22 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
                 }
                 final Drawable result = mTileSource.getDrawable(byteStream);
 
+                ((DefaultHttpClient) httpClient).close();
                 return result;
             } catch (final UnknownHostException e) {
                 // no network connection so empty the queue
-                Log.w(TAG,"WMSMapTileDownloader -- UnknownHostException downloading MapTile: " + tile + " : " + e);
+                Log.w(TAG, "WMSMapTileDownloader -- UnknownHostException downloading MapTile: " + tile + " : " + e);
                 throw new CantContinueException(e);
             } catch (final LowMemoryException e) {
                 // low memory so empty the queue
-                Log.w(TAG,"WMSMapTileDownloader -- LowMemoryException downloading MapTile: " + tile + " : " + e);
+                Log.w(TAG, "WMSMapTileDownloader -- LowMemoryException downloading MapTile: " + tile + " : " + e);
                 throw new CantContinueException(e);
             } catch (final FileNotFoundException e) {
-                Log.w(TAG,"WMSMapTileDownloader -- Tile not found: " + tile + " : " + e);
+                Log.w(TAG, "WMSMapTileDownloader -- Tile not found: " + tile + " : " + e);
             } catch (final IOException e) {
-                Log.w(TAG,"WMSMapTileDownloader -- IOException downloading MapTile: " + tile + " : " + e);
+                Log.w(TAG, "WMSMapTileDownloader -- IOException downloading MapTile: " + tile + " : " + e);
             } catch (final Throwable e) {
-                Log.e(TAG,"WMSMapTileDownloader -- Error downloading MapTile: " + tile, e);
+                Log.e(TAG, "WMSMapTileDownloader -- Error downloading MapTile: " + tile, e);
             } finally {
                 StreamUtils.closeStream(in);
                 StreamUtils.closeStream(out);
@@ -317,6 +320,14 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
 
     } // end getNewHttpClient
 
+    public void finalyze() {
+        HttpClient httpClient = this.getNewHttpClient();
+        if (null != httpClient) {
+
+
+        }
+    }
+
     /**
      * Socket factory for trusting all certs.
      */
@@ -342,7 +353,7 @@ public class WMTSMapTileDownloader extends MapTileModuleProviderBase {
                 }
             };
 
-            sslContext.init(null, new TrustManager[] { tm }, null);
+            sslContext.init(null, new TrustManager[]{tm}, null);
         }
 
         @Override
