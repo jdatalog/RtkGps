@@ -16,11 +16,12 @@ public class GeoportailWMTSTileSource extends OnlineTileSourceBase {
                 layer.getFilenameEnding(), GeoportailWMTSTileSource.getUrl());
 
         mLayer = layer;
+
     }
 
 
     private  static String[] getUrl() {
-        return new String[]{"https://wxs.ign.fr/00dbijqtbt4oawuw30ne81uk/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM"
+        return new String[]{"https://wxs.ign.fr/"+License.getKey()+"/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM"
         };
     }
 
