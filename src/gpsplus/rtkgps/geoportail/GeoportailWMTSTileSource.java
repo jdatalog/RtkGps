@@ -8,10 +8,10 @@ import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 public class GeoportailWMTSTileSource extends OnlineTileSourceBase {
 
     private GeoportailLayer mLayer;
-   // private static String baseUrl[] = {"https://wxs.ign.fr/"+License.KEY+"/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM"  };
+    // private static String baseUrl[] = {"https://wxs.ign.fr/"+License.KEY+"/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM"  };
 
     public GeoportailWMTSTileSource(final string aResourceId,
-                                GeoportailLayer layer) {
+                                    GeoportailLayer layer) {
         super(layer.getLayer(), aResourceId, layer.getMinimalZoom(), layer.getMaximalZoom(), 256,
                 layer.getFilenameEnding(), GeoportailWMTSTileSource.getUrl());
 
@@ -20,7 +20,7 @@ public class GeoportailWMTSTileSource extends OnlineTileSourceBase {
 
 
     private  static String[] getUrl() {
-        return new String[]{"https://wxs.ign.fr/00dbijqtbt4oawuw30ne81uk/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM"
+        return new String[]{"https://wxs.ign.fr/"+License.getKey()+"/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM"
         };
     }
 
